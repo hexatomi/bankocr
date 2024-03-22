@@ -37,14 +37,29 @@ export default function RawText({ id, rawTexts, setRawTexts }: RawTextProps) {
         setResult(transformCodeToNumbers(text));
     };
 
-    const generateChecksum = () => { 
+    const checkNumber = () => {
+        const reversedResult = result.split('').reverse();
+        let checksum = '';
+        let state = '';
+
+        if (result.indexOf('?') !== -1) {
+            checksum = 'none';
+            state = 'ILL';
+
+        } else {
+            checksum = reversedResult.reduce((sum, item, index) => {
+                return `${+sum + +item * (index + 1)}`;
+            });
+            state = +checksum % 11 === 0 ? 'OK' : 'ERR';
+        }
+
         setRawTexts({
             ...rawTexts,
-            [id]:{
+            [id]: {
                 ...rawTexts[id],
-                result: result,
-                cheksum : 8,
-                state : 'ERR'
+                result,
+                checksum,
+                state
             }
         });
     };
@@ -56,7 +71,7 @@ export default function RawText({ id, rawTexts, setRawTexts }: RawTextProps) {
                 <pre>{text}</pre>
                 <button style={styles.button} onClick={() => scan()}>scan</button>
                 <div>{result}</div>
-                {result && <button style={styles.button} onClick={() => generateChecksum()}>checksum</button>}
+                {result && <button style={styles.button} onClick={() => checkNumber()}>checksum</button>}
             </div>
         </div>
     );

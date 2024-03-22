@@ -4,11 +4,26 @@ import { createId } from '../utils/utils';
 import RawText from './RawText';
 import Results from './Results';
 
+const styles = {
+    container: {
+        border: '1px solid red',
+        display: 'flex',
+    },
+    left: {
+        border: '1px solid red',
+        width: '70%'
+    },
+    right: {
+        border: '1px solid red',
+        width : '30%'
+    }
+};
+
 export interface RawTextValue {
     text: string;
     result: string;
     checksum: number;
-    state: 'OK' | 'ERR' | 'ILL';
+    state: 'OK' | 'ERR' | 'ILL' | '';
 }
 
 export default function FileProcessor() {
@@ -30,7 +45,7 @@ export default function FileProcessor() {
                             s += item;
                             s += '\n'
                         }
-                        tempObj[createId()] = { text: s, result:'', checksum: -1, state: 'OK' };
+                        tempObj[createId()] = { text: s, result: '', checksum: -1, state: '' };
                         tempIndex = 1;
                         tempArr = [];
                     }
@@ -42,9 +57,13 @@ export default function FileProcessor() {
         }).catch(() => console.error('error'));
     }, []);
     return (
-        <div>
-            {Object.keys(rawTexts).map((key) => <RawText id={key} rawTexts={rawTexts} setRawTexts={setRawTexts} key={key} />)}
-            <Results rawTexts={rawTexts} />
+        <div style={styles.container}>
+            <div style={styles.left}>
+                {Object.keys(rawTexts).map((key) => <RawText id={key} rawTexts={rawTexts} setRawTexts={setRawTexts} key={key} />)}
+            </div>
+            <div style={styles.right}>
+                <Results rawTexts={rawTexts} />
+            </div>
         </div>
     );
 }
