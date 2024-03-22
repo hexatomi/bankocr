@@ -1,4 +1,6 @@
 import RawText from "./components/RawText";
+import FileProcessor from "./components/FileProcessor.tsx";
+
 import {case1, case2, case3, case4, case5} from './store/raw-data.ts';
 
 console.clear();
@@ -79,11 +81,7 @@ export default function App() {
 
   return (
     <div>sanyi
-      <RawText text={case1}/>
-      <RawText text={case2}/>
-      <RawText text={case3}/>
-      <RawText text={case4}/>
-      <RawText text={case5}/>
+      <FileProcessor />
     </div>
   )
 }
