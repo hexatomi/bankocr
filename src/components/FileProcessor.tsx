@@ -7,7 +7,8 @@ import Results from './Results';
 const styles = {
     container: {
         display: 'flex',
-        gap: '1rem'
+        gap: '1rem',
+        width: '100%'
     },
     left: {
         border: '1px solid rgba(0,0,0,0.5)',
