@@ -32,6 +32,10 @@ export default function RawText({ id, rawTexts, setRawTexts }: RawTextProps) {
 
     const scan = () => {
         setResult(transformCodeToNumbers(text));
+        let utterance = new SpeechSynthesisUtterance("Scanning");
+        utterance.pitch = 0;
+        utterance.lang = 'en';
+        speechSynthesis.speak(utterance);
     };
 
     const checkNumber = () => {
