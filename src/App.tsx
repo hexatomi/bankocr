@@ -1,19 +1,7 @@
+import RawText from "./components/RawText";
+import {case1, case2, case3, case4, case5} from './store/raw-data.ts';
 
 console.clear();
-
-const case1 = `
-    _  _     _  _  _  _  _ 
-  | _| _||_||_ |_   ||_||_|
-  ||_  _|  | _||_|  ||_| _|
-  
-`;
-
-const case2 = `
-    _  _     _  _  _  _  _ 
-  | _| _||_||_ |_   ||_|| |
-  ||_  _|  | _||_|  ||_||_|
-  
-`;
 
 const codedNumbers = [
   ' _ | ||_|',
@@ -90,6 +78,12 @@ tester(transformCodeToNumbers(case1), '123456789');
 export default function App() {
 
   return (
-      <div>sanyi</div>
+    <div>sanyi
+      <RawText text={case1}/>
+      <RawText text={case2}/>
+      <RawText text={case3}/>
+      <RawText text={case4}/>
+      <RawText text={case5}/>
+    </div>
   )
 }
