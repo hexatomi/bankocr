@@ -12,9 +12,8 @@ export default function FileProcessor() {
             let tempArr: string[] = [];
             let tempIndex = 1;
 
-            console.log(content)
             const contentArr = content.split('\n');
-            console.log(contentArr)
+
             for (const row of contentArr) {
                 if (row) {
                     if (tempIndex === 5) {
@@ -31,7 +30,6 @@ export default function FileProcessor() {
                     tempIndex++;
                 }
             }
-            console.log(tempObj);
             setRawTexts(tempObj)
         }).catch(() => console.error('error'));
     }, []);

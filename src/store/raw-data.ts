@@ -69,7 +69,8 @@ const case2m = `
     _  _     _  _  _  _  _ 
   | _| _||_||_ |_   ||_||_|
   ||_  _|  | _||_|  ||_| _|
-`;
+
+ `;
 
 export const getFileContent = ():Promise<string> => {
   return Promise.resolve(case1m);
