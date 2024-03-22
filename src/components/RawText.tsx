@@ -1,70 +1,55 @@
-import { codedNumbers } from "../utils/utils";
+import { useState } from 'react';
+import { transformCodeToNumbers } from "../utils/utils";
+import { RawTextValue } from './FileProcessor';
 
-interface RawTextProps {
-    text: string;
-}
-
-const transformCodeToNumbers = (codedNumber) => {
-    const caseByRows = codedNumber.split('\n');
-
-    const row1 = caseByRows[0].split('');
-    const row2 = caseByRows[1].split('');
-    const row3 = caseByRows[2].split('');
-
-    const positions = {
-        0: { raw: '', real: '0' },
-        1: { raw: '', real: '0' },
-        2: { raw: '', real: '0' },
-        3: { raw: '', real: '0' },
-        4: { raw: '', real: '0' },
-        5: { raw: '', real: '0' },
-        6: { raw: '', real: '0' },
-        7: { raw: '', real: '0' },
-        8: { raw: '', real: '0' },
-    };
-
-    const pushCharsByIndex = (char, index) => {
-        const slot = Math.floor(index / 3);
-        positions[slot].raw += char;
-    };
-
-    row1.forEach((char, index) => {
-        pushCharsByIndex(char, index);
-    });
-    row2.forEach((char, index) => {
-        pushCharsByIndex(char, index);
-    });
-    row3.forEach((char, index) => {
-        pushCharsByIndex(char, index);
-    });
-
-    let result = '';
-
-    Object.values(positions).forEach((value) => {
-        let found = false;
-        codedNumbers.forEach((cn, cni) => {
-            if (value.raw === cn) {
-                value.real = `${cni}`;
-                result += value.real;
-                found = true;
-            }
-        });
-        if (!found) {
-            result += '?';
-        }
-    });
-
-    return result;
+const styles = {
+    container: {
+        border: '1px solid red'
+    },
+    row: {
+        border: '1px solid red',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '1rem'
+    },
+    button: {
+        margin: '0',
+        padding: '0.5rem 1rem',
+        border: '1px solid black',
+        borderRadius: '0.25rem',
+        outline: 'none',
+        cursor: 'pointer',
+        backgroundColor: 'transparent'
+    }
 };
 
-export default function RawText({ text }: RawTextProps) {
-    
-    const result = transformCodeToNumbers(text);
+interface RawTextProps {
+    id: string;
+    rawTexts: Record<string, RawTextValue>
+    setRawTexts: Function;
+}
+
+export default function RawText({ id, rawTexts }: RawTextProps) {
+    const text = rawTexts[id].text;
+    const [result, setResult] = useState('');
+
+    const scan = () => {
+        setResult(transformCodeToNumbers(text));
+    };
+
+    const generateChecksum = () => { 
+        // setRawTexts
+    };
 
     return (
-        <div>
-            <pre>{text}</pre>
-            <div>{result}</div>
+        <div style={styles.container}>
+            <div style={styles.row}>
+                <div>{id}</div>
+                <pre>{text}</pre>
+                <button style={styles.button} onClick={() => scan()}>scan</button>
+                <div>{result}</div>
+                {result && <button style={styles.button} onClick={() => generateChecksum()}>checksum</button>}
+            </div>
         </div>
     );
 }

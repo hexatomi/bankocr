@@ -3,12 +3,18 @@ import { getFileContent } from '../store/raw-data';
 import { createId } from '../utils/utils';
 import RawText from './RawText';
 
+export interface RawTextValue {
+    text: string;
+    checksum: number;
+    state: 'OK' | 'ERR' | 'ILL';
+}
+
 export default function FileProcessor() {
-    const [rawTexts, setRawTexts] = useState<Record<string, string>>({});
+    const [rawTexts, setRawTexts] = useState<Record<string, RawTextValue>>({});
 
     useEffect(() => {
         getFileContent().then((content) => {
-            const tempObj: Record<string, string> = {};
+            const tempObj: Record<string, RawTextValue> = {};
             let tempArr: string[] = [];
             let tempIndex = 1;
 
@@ -18,11 +24,11 @@ export default function FileProcessor() {
                 if (row) {
                     if (tempIndex === 5) {
                         let s = '';
-                        for(const item of tempArr) {
+                        for (const item of tempArr) {
                             s += item;
                             s += '\n'
                         }
-                        tempObj[createId()] = s;
+                        tempObj[createId()] = { text: s, checksum: -1, state: 'OK' };
                         tempIndex = 1;
                         tempArr = [];
                     }
@@ -34,13 +40,8 @@ export default function FileProcessor() {
         }).catch(() => console.error('error'));
     }, []);
     return (
-        <div>file processor
-            {Object.entries(rawTexts!).map(([key, value]) => {
-            return (
-                <RawText text={value} key={key}/>
-            );
-        })}
+        <div>
+            {Object.keys(rawTexts).map((key) => <RawText id={key} rawTexts={rawTexts} setRawTexts={setRawTexts} key={key} />)}
         </div>
-        
     );
 }
