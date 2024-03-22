@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { getFileContent } from '../store/raw-data';
 import { createId } from '../utils/utils';
 import RawText from './RawText';
+import Results from './Results';
 
 export interface RawTextValue {
     text: string;
+    result: string;
     checksum: number;
     state: 'OK' | 'ERR' | 'ILL';
 }
@@ -28,7 +30,7 @@ export default function FileProcessor() {
                             s += item;
                             s += '\n'
                         }
-                        tempObj[createId()] = { text: s, checksum: -1, state: 'OK' };
+                        tempObj[createId()] = { text: s, result:'', checksum: -1, state: 'OK' };
                         tempIndex = 1;
                         tempArr = [];
                     }
@@ -42,6 +44,7 @@ export default function FileProcessor() {
     return (
         <div>
             {Object.keys(rawTexts).map((key) => <RawText id={key} rawTexts={rawTexts} setRawTexts={setRawTexts} key={key} />)}
+            <Results rawTexts={rawTexts} />
         </div>
     );
 }

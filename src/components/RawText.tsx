@@ -29,7 +29,7 @@ interface RawTextProps {
     setRawTexts: Function;
 }
 
-export default function RawText({ id, rawTexts }: RawTextProps) {
+export default function RawText({ id, rawTexts, setRawTexts }: RawTextProps) {
     const text = rawTexts[id].text;
     const [result, setResult] = useState('');
 
@@ -38,7 +38,15 @@ export default function RawText({ id, rawTexts }: RawTextProps) {
     };
 
     const generateChecksum = () => { 
-        // setRawTexts
+        setRawTexts({
+            ...rawTexts,
+            [id]:{
+                ...rawTexts[id],
+                result: result,
+                cheksum : 8,
+                state : 'ERR'
+            }
+        });
     };
 
     return (
