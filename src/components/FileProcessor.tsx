@@ -6,16 +6,18 @@ import Results from './Results';
 
 const styles = {
     container: {
-        border: '1px solid red',
         display: 'flex',
+        gap: '1rem'
     },
     left: {
-        border: '1px solid red',
+        border: '1px solid rgba(0,0,0,0.5)',
+        borderRadius: '1rem',
         width: '70%'
     },
     right: {
-        border: '1px solid red',
-        width : '30%'
+        border: '1px solid rgba(0,0,0,0.5)',
+        borderRadius: '1rem',
+        width: '30%'
     }
 };
 

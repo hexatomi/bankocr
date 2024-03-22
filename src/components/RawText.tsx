@@ -4,13 +4,10 @@ import { RawTextValue } from './FileProcessor';
 
 const styles = {
     container: {
-        border: '1px solid red'
-    },
-    row: {
-        border: '1px solid red',
         display: 'flex',
         alignItems: 'center',
-        gap: '1rem'
+        gap: '1rem',
+        padding: '0.5rem'
     },
     button: {
         margin: '0',
@@ -66,13 +63,11 @@ export default function RawText({ id, rawTexts, setRawTexts }: RawTextProps) {
 
     return (
         <div style={styles.container}>
-            <div style={styles.row}>
-                <div>{id}</div>
-                <pre>{text}</pre>
-                <button style={styles.button} onClick={() => scan()}>scan</button>
-                <div>{result}</div>
-                {result && <button style={styles.button} onClick={() => checkNumber()}>checksum</button>}
-            </div>
+            <div>{id}</div>
+            <pre>{text}</pre>
+            <button style={styles.button} onClick={() => scan()}>scan</button>
+            <div>{result}</div>
+            {result && <button style={styles.button} onClick={() => checkNumber()}>checksum</button>}
         </div>
     );
 }
