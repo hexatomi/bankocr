@@ -7,7 +7,7 @@ const styles = {
     container : {
         padding: '2rem',
         display: 'flex',
-        'flex-direction' : 'column',
+        flexDirection : 'column',
         alignItems : 'center',
         gap : '2rem'
     },
@@ -15,7 +15,7 @@ const styles = {
         display : 'flex',
         gap : '1rem',
         padding: '0.25rem',
-        'letter-spacing' : '0.125rem'
+        letterSpacing : '0.125rem'
     },
 };
 

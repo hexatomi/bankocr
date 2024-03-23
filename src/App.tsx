@@ -7,7 +7,7 @@ const styles = {
   container: {
     padding: '2rem 4rem',
     display: 'flex',
-    'flex-direction': 'column',
+    flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
     gap: '2rem'
@@ -26,7 +26,3 @@ export default function App() {
     </div>
   )
 }
-
-/* scan visual effect
-  refactor
-*/

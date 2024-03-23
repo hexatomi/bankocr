@@ -9,7 +9,26 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         gap: '1rem',
-        padding: '0.5rem'
+        padding: '0.5rem',
+    },
+    preContainer : {
+        border: '1px solid rgba(0,0,0,0.5)',
+        borderRadius : '0.25rem',
+        position : 'relative',
+        padding: '0 1rem'
+    },
+    bar: {
+        position: 'absolute',
+        width: '3px',
+        height: '100%',
+        backgroundColor : 'rgba(0,0,0,0.5)',
+        left: '0',
+        top: '0',
+        transition: 'left 1000ms',
+        borderRadius : '0.125rem',
+    },
+    result : {
+        letterSpacing : '0.125rem'
     },
     button: {
         margin: '0',
@@ -28,17 +47,17 @@ interface RawTextProps {
 
 export default function RawText({ id }: RawTextProps) {
     const [state, dispatch] = useContext<Context>(AppContext);
-    const {rawTexts} = state
+    const { rawTexts } = state
 
     const text = rawTexts[id].text;
     const [result, setResult] = useState('');
+    const [scanned, setScanned] = useState(false);
 
     const scan = () => {
-        setResult(transformCodeToNumbers(text));
-        let utterance = new SpeechSynthesisUtterance("Scanning");
-        utterance.pitch = 0;
-        utterance.lang = 'en';
-        speechSynthesis.speak(utterance);
+        setScanned(true);
+        setTimeout(() => {
+            setResult(transformCodeToNumbers(text));
+        }, 1000);
     };
 
     const checkNumber = () => {
@@ -57,23 +76,29 @@ export default function RawText({ id }: RawTextProps) {
             state = +checksum % 11 === 0 ? 'OK' : 'ERR';
         }
 
-        dispatch({type : 'setRawTexts', payload: {
-            ...rawTexts,
-            [id]: {
-                ...rawTexts[id],
-                result,
-                checksum,
-                state
+        dispatch({
+            type: 'setRawTexts', payload: {
+                ...rawTexts,
+                [id]: {
+                    ...rawTexts[id],
+                    result,
+                    checksum,
+                    state
+                }
             }
-        }});
+        });
     };
 
     return (
         <div style={styles.container}>
             <div>{id}</div>
-            <pre>{text}</pre>
+            <div style={styles.preContainer}>
+                <pre>{text}</pre>
+                <div style={{...styles.bar, left : scanned === false ? '0' : 'calc(100% - 3px)'}}></div>
+            </div>
+
             <button style={styles.button} onClick={() => scan()}>scan</button>
-            <div>{result}</div>
+            <div style={styles.result}>{result}</div>
             {result && <button style={styles.button} onClick={() => checkNumber()}>checksum</button>}
         </div>
     );
