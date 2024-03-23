@@ -1,9 +1,10 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useContext } from 'react';
+import { AppContext } from '../store/context';
+import { RawTexts } from '../store/reducer';
 import { getFileContent } from '../store/raw-data';
 import { createId } from '../utils/utils';
 import RawText from './RawText';
 import Results from './Results';
-import { AppContext, Context } from '../store/context';
 
 const styles = {
     container: {
@@ -23,20 +24,13 @@ const styles = {
     }
 };
 
-export interface RawTextValue {
-    text: string;
-    result: string;
-    checksum: number;
-    state: 'OK' | 'ERR' | 'ILL' | '';
-}
-
 export default function FileProcessor() {
-    const [state, dispatch] = useContext<Context>(AppContext);
-    const {rawTexts} = state
+    const [state, dispatch] = useContext(AppContext);
+    const { rawTexts } = state;
 
     useEffect(() => {
         getFileContent().then((content) => {
-            const tempObj: Record<string, RawTextValue> = {};
+            const tempObj: RawTexts= {};
             let tempArr: string[] = [];
             let tempIndex = 1;
 
@@ -58,16 +52,19 @@ export default function FileProcessor() {
                     tempIndex++;
                 }
             }
-            dispatch({type: 'setRawTexts', payload: tempObj});
+
+            dispatch({ type: 'setRawTexts', payload: tempObj });
+            
         }).catch(() => console.error('error'));
     }, []);
+
     return (
         <div style={styles.container}>
             <div style={styles.left}>
                 {Object.keys(rawTexts).map((key) => <RawText id={key} key={key} />)}
             </div>
             <div style={styles.right}>
-                <Results/>
+                <Results />
             </div>
         </div>
     );

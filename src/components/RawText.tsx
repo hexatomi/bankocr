@@ -1,8 +1,6 @@
 import { useState, useContext } from 'react';
+import { AppContext } from '../store/context';
 import { transformCodeToNumbers } from "../utils/utils";
-import { RawTextValue } from './FileProcessor';
-import { AppContext, Context } from '../store/context';
-
 
 const styles = {
     container: {
@@ -11,24 +9,24 @@ const styles = {
         gap: '1rem',
         padding: '0.5rem',
     },
-    preContainer : {
+    preContainer: {
         border: '1px solid rgba(0,0,0,0.5)',
-        borderRadius : '0.25rem',
-        position : 'relative',
+        borderRadius: '0.25rem',
+        position: 'relative',
         padding: '0 1rem'
     },
     bar: {
         position: 'absolute',
         width: '3px',
         height: '100%',
-        backgroundColor : 'rgba(0,0,0,0.5)',
+        backgroundColor: 'rgba(0,0,0,0.5)',
         left: '0',
         top: '0',
         transition: 'left 1000ms',
-        borderRadius : '0.125rem',
+        borderRadius: '0.125rem',
     },
-    result : {
-        letterSpacing : '0.125rem'
+    result: {
+        letterSpacing: '0.125rem'
     },
     button: {
         margin: '0',
@@ -39,16 +37,15 @@ const styles = {
         cursor: 'pointer',
         backgroundColor: 'transparent'
     }
-};
+} as any;
 
 interface RawTextProps {
     id: string;
 }
 
 export default function RawText({ id }: RawTextProps) {
-    const [state, dispatch] = useContext<Context>(AppContext);
-    const { rawTexts } = state
-
+    const [state, dispatch] = useContext(AppContext);
+    const { rawTexts } = state;
     const text = rawTexts[id].text;
     const [result, setResult] = useState('');
     const [scanned, setScanned] = useState(false);
@@ -77,7 +74,8 @@ export default function RawText({ id }: RawTextProps) {
         }
 
         dispatch({
-            type: 'setRawTexts', payload: {
+            type: 'setRawTexts',
+            payload: {
                 ...rawTexts,
                 [id]: {
                     ...rawTexts[id],
@@ -92,13 +90,16 @@ export default function RawText({ id }: RawTextProps) {
     return (
         <div style={styles.container}>
             <div>{id}</div>
+
             <div style={styles.preContainer}>
                 <pre>{text}</pre>
-                <div style={{...styles.bar, left : scanned === false ? '0' : 'calc(100% - 3px)'}}></div>
+                <div style={{ ...styles.bar, left: scanned === false ? '0' : 'calc(100% - 3px)' }}></div>
             </div>
 
             <button style={styles.button} onClick={() => scan()}>scan</button>
+
             <div style={styles.result}>{result}</div>
+
             {result && <button style={styles.button} onClick={() => checkNumber()}>checksum</button>}
         </div>
     );

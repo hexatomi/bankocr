@@ -1,25 +1,25 @@
 import { useReducer } from 'react';
+import { appReducer, initialState } from './store/reducer.ts';
 import { AppContext } from "./store/context.ts";
 import FileProcessor from "./components/FileProcessor.tsx";
-import { appReducer, initialState } from './store/reducer.ts';
 
 const styles = {
   container: {
-    padding: '2rem 4rem',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
     width: '100%',
-    gap: '2rem'
+    padding: '2rem 4rem',
+  },
+  title: {
+    marginBottom: '2rem',
+    textAlign: 'center'
   }
-};
+} as any;
 
 export default function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   return (
     <div style={styles.container}>
-      <h1>BANKOCR</h1>
+      <h1 style={styles.title}>BANKOCR</h1>
       <AppContext.Provider value={[state, dispatch]}>
         <FileProcessor />
       </AppContext.Provider>

@@ -5,25 +5,21 @@ type RawTextValue = {
     state: 'OK' | 'ERR' | 'ILL' | '';
 }
 
-type Action = {
-    type: 'setRawTexts';
-    payload: RawTexts
-}
-
-type RawTexts = Record<string, RawTextValue>
+export type RawTexts = Record<string, RawTextValue>
 
 export type AppState = {
     rawTexts: RawTexts
 }
 
+type Action = {
+    type: 'setRawTexts';
+    payload: RawTexts
+}
+
 export const appReducer = (state: AppState, action: Action) => {
     switch (action.type) {
+
         case 'setRawTexts': {
-            const a = {
-                ...state,
-                rawTexts: action.payload
-            };
-            console.log(222, a)
             return {
                 ...state,
                 rawTexts: action.payload
@@ -37,5 +33,5 @@ export const appReducer = (state: AppState, action: Action) => {
 };
 
 export const initialState: AppState = {
-    rawTexts : {}
+    rawTexts: {}
 };

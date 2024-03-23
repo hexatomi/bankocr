@@ -1,5 +1,6 @@
 import { createContext } from 'react';
+import { AppState } from './reducer';
 
-export type Context = [state: any, dispatch: any]
+type Context = [state: AppState, dispatch: Function]
 
-export const AppContext = createContext<Context>([{}, () => {}]);
+export const AppContext = createContext<Context>([{ rawTexts: {} }, () => { }]);
