@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { transformCodeToNumbers } from "../utils/utils";
 import { RawTextValue } from './FileProcessor';
+import { AppContext, Context } from '../store/context';
+
 
 const styles = {
     container: {
@@ -22,11 +24,12 @@ const styles = {
 
 interface RawTextProps {
     id: string;
-    rawTexts: Record<string, RawTextValue>
-    setRawTexts: Function;
 }
 
-export default function RawText({ id, rawTexts, setRawTexts }: RawTextProps) {
+export default function RawText({ id }: RawTextProps) {
+    const [state, dispatch] = useContext<Context>(AppContext);
+    const {rawTexts} = state
+
     const text = rawTexts[id].text;
     const [result, setResult] = useState('');
 
@@ -54,7 +57,7 @@ export default function RawText({ id, rawTexts, setRawTexts }: RawTextProps) {
             state = +checksum % 11 === 0 ? 'OK' : 'ERR';
         }
 
-        setRawTexts({
+        dispatch({type : 'setRawTexts', payload: {
             ...rawTexts,
             [id]: {
                 ...rawTexts[id],
@@ -62,7 +65,7 @@ export default function RawText({ id, rawTexts, setRawTexts }: RawTextProps) {
                 checksum,
                 state
             }
-        });
+        }});
     };
 
     return (

@@ -1,8 +1,7 @@
-import { RawTextValue } from './FileProcessor';
+import { AppContext, Context } from '../store/context';
+import { useState, useContext } from 'react';
+import { AppState } from '../store/reducer';
 
-interface ResultsProps {
-    rawTexts: Record<string, RawTextValue>
-}
 
 const styles = {
     container : {
@@ -20,7 +19,9 @@ const styles = {
     },
 };
 
-export default function Results({ rawTexts }: ResultsProps) {
+export default function Results() {
+    const [state, dispatch] = useContext<Context>(AppContext);
+    const {rawTexts} = state as AppState
     return (
         <div style={styles.container}>
             <h2>RESULTS</h2>
